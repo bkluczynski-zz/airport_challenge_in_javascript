@@ -13,5 +13,12 @@ describe('Feature Test', function(){
     expect(airport.planes()).toContain(plane);
   });
 
+  it("planes can take off from an airport", function(){
+    plane.land(airport);
+    plane.takeoff(airport);
+    expect(airport.planes()).not.toContain(plane);
+  });
+
+
 
 });
