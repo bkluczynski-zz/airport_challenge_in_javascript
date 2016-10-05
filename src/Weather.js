@@ -2,5 +2,5 @@ function Weather(){
 };
 
 Weather.prototype.isStormy = function(){
-  return (Math.random() > 0.9 )
+  return (Math.random() > 0.9);
 };

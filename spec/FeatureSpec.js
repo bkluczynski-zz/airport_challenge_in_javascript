@@ -3,9 +3,11 @@
 describe('Feature Test', function(){
   var plane;
   var airport;
+  var i;
   beforeEach(function(){
     plane = new Plane();
     airport = new Airport();
+    i = 0;
   });
 
   describe('under not stormy conditions', function(){
@@ -22,6 +24,9 @@ describe('Feature Test', function(){
       plane.takeoff(airport);
       expect(airport.planes()).not.toContain(plane);
     });
+
+
+
   });
 
   describe('under stormy conditions', function(){
@@ -45,5 +50,17 @@ describe('Feature Test', function(){
 
   });
 
+  describe('airport can be full', function(){
+    beforeEach(function(){
+      spyOn(Math,'random').and.returnValue(0);
+    });
+    it('does not allow a plane over its default capacity', function(){
+      while (i < 20) {
+      plane.land(airport);
+      i++;
+    };
+    expect(function(){ plane.land(airport); }).toThrowError('cannot land, airport over capacity');
+  });
+});
 
 });
