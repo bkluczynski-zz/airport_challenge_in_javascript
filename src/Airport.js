@@ -1,5 +1,6 @@
-function Airport(){
+function Airport(weather = new Weather){
   this.hangar = [];
+  this.weather = weather;
 };
 
 Airport.prototype.planes = function(){
@@ -7,10 +8,16 @@ Airport.prototype.planes = function(){
 };
 
 Airport.prototype.goodToLand = function(plane){
-  this.hangar.push(plane);
+  if (this.weather.isStormy()) {
+  throw new Error ('cannot land during storm');
+}
+this.hangar.push(plane);
 };
 
 Airport.prototype.goodToTakeOff =
 function(plane){
-  this.hangar.pop(plane)
+  if (this.weather.isStormy()) {
+  throw new Error ('cannot takeoff during storm');
+}
+this.hangar.pop(plane)
 };
