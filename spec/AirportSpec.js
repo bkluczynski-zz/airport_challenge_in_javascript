@@ -3,41 +3,46 @@
 describe("Airport", function(){
   var airport;
   var plane;
+  var weather;
   beforeEach(function(){
     airport = new Airport();
-    plane = jasmine.createSpyObj("plane",["land","takeoff"])
+    plane = jasmine.createSpyObj("plane",["land","takeoff"]);
+    weather = jasmine.createSpyObj('weather', ['isStormy']);
   });
 
-  it("has no planes by default", function(){
-    expect(airport.planes()).toEqual([]);
+  describe('under normal conditions',function(){
+    beforeEach(function(){
+      weather.isStormy.and.returnValue(false);
+      spyOn(Math,'random').and.returnValue(0);
+    });
+
+    it("has no planes by default", function(){
+      expect(airport.planes()).toEqual([]);
+    });
+
+    it("can give a plane green light to land", function(){
+      airport.goodToLand(plane);
+      expect(airport.planes()).toEqual([plane])
+    });
+
+    it("can give a plane green light to take off",function(){
+      airport.goodToLand(plane);
+      airport.goodToTakeOff(plane);
+      expect(airport.planes()).toEqual([])
+    });
+
+
   });
 
-  it("can give a plane green light to land", function(){
-    airport.goodToLand(plane);
-    expect(airport.planes()).toEqual([plane])
-  });
-
-  it("can give a plane green light to take off",function(){
-    airport.goodToLand(plane);
-    airport.goodToTakeOff(plane);
-    expect(airport.planes()).toEqual([])
-  });
-
-  it("can check whether weather is stormy", function(){
-    expect(airport.isStormy()).toBeFalsy;
-  });
 
 
   describe("when weather is stormy", function(){
     it("can stop the plane from taking off", function(){
-      airport.goodToLand(plane);
-      spyOn(airport,'isStormy').and.returnValue(true);
+      spyOn(Math,'random').and.returnValue(1);
       expect(function(){ airport.goodToTakeOff(plane); }).toThrowError('cannot takeoff during storm');
-      expect(airport.planes()).toEqual([plane]);
     });
     it("can stop the plane from landing", function(){
-      airport.goodToTakeOff(plane);
-      spyOn(airport,'isStormy').and.returnValue(true);
+      spyOn(Math,'random').and.returnValue(1);
       expect(function(){ airport.goodToLand(plane); }).toThrowError('cannot land during storm');
       expect(airport.planes()).toEqual([]);
     });
