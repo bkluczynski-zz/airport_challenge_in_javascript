@@ -12,5 +12,12 @@ Airport.prototype.goodToLand = function(plane){
 
 Airport.prototype.goodToTakeOff =
 function(plane){
-  this.hangar.pop(plane)
+  if (this.isStormy()) {
+  throw new Error ('cannot takeoff during storm');
+}
+this.hangar.pop(plane)
+};
+
+Airport.prototype.isStormy = function(){
+  return false;
 };

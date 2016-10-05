@@ -23,6 +23,24 @@ describe("Airport", function(){
     expect(airport.planes()).toEqual([])
   });
 
+  it("can check whether weather is stormy", function(){
+    expect(airport.isStormy()).toBeFalsy;
+  });
+
+
+  describe("when weather is stormy", function(){
+    it("can stop the plane", function(){
+      airport.goodToLand(plane);
+      spyOn(airport,'isStormy').and.returnValue(true);
+      expect(function(){ airport.goodToTakeOff(plane); }).toThrowError('cannot takeoff during storm');
+      expect(airport.planes()).toEqual([plane]);
+    });
+  });
+
+
+
+
+
 
 
 });
