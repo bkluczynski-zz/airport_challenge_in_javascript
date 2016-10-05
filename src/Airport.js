@@ -1,6 +1,8 @@
 function Airport(weather = new Weather){
   this.hangar = [];
   this.weather = weather;
+  this.DEFAULT_CAPACITY = 20;
+
 };
 
 Airport.prototype.planes = function(){
@@ -11,7 +13,7 @@ Airport.prototype.goodToLand = function(plane){
   if (this.weather.isStormy()) {
   throw new Error ('cannot land during storm');
 }
-  if (this.hangar.length >= 20) {
+  if (this.hangar.length >= this.DEFAULT_CAPACITY) {
   throw new Error ('cannot land, airport over capacity');
 }
 
