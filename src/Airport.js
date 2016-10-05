@@ -7,7 +7,10 @@ Airport.prototype.planes = function(){
 };
 
 Airport.prototype.goodToLand = function(plane){
-  this.hangar.push(plane);
+  if (this.isStormy()) {
+  throw new Error ('cannot land during storm');
+}
+this.hangar.push(plane);
 };
 
 Airport.prototype.goodToTakeOff =
